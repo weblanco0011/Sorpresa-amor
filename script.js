@@ -1,11 +1,11 @@
-// --- CONFIGURACIÓN DE LA LISTA DE CANCIONES ---
+// --- CONFIGURACIÓN DE LA LISTA DE CANCIONES (CON RUTA A LA CARPETA 'audio') ---
 const playlist = [
-    'cancion1.mp3',
-    'cancion2.mp3',
-    'cancion3.mp3',
-    'cancion4.mp3',
-    'cancion5.mp3',
-    'cancion6.mp3'
+    'audio/cancion1.mp3',
+    'audio/cancion2.mp3',
+    'audio/cancion3.mp3',
+    'audio/cancion4.mp3',
+    'audio/cancion5.mp3',
+    'audio/cancion6.mp3'
 ];
 
 let cancionActualIndex = 0;
@@ -19,6 +19,7 @@ audio.src = playlist[cancionActualIndex];
 function reproducirSiguiente() {
     // Avanza al siguiente índice, y si llega al final, vuelve al principio (loop)
     cancionActualIndex = (cancionActualIndex + 1) % playlist.length;
+    console.log("Cambiando a la siguiente canción:", playlist[cancionActualIndex]); // Mensaje para depurar
     audio.src = playlist[cancionActualIndex];
     audio.play();
 }
@@ -46,8 +47,9 @@ let preguntaActual = 0;
 function mostrarPantalla(idPantalla) {
     // Iniciar la música con la primera interacción para cumplir con las políticas del navegador
     if (!musicaIniciada) {
+        console.log("Primer clic detectado. Intentando reproducir música..."); // Mensaje para depurar
         audio.play().catch(error => {
-            console.log("El navegador bloqueó la reproducción automática. Iniciando con clic.");
+            console.error("Error al intentar reproducir audio:", error); // Mensaje si falla
         });
         musicaIniciada = true;
     }
