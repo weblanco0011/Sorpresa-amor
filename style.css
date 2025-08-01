@@ -1,0 +1,158 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f0f0f0;
+    background-image: url('imagen1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #333;
+    overflow: hidden;
+}
+
+.pantalla {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    animation: fadeIn 1s;
+}
+
+.pantalla.activa {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.contenido, .contenido-juego, .contenido-final {
+    background-color: rgba(255, 255, 255, 0.85);
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+h1 {
+    color: #A8D8B9;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #666;
+    font-size: 1.5em;
+}
+
+p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+button {
+    background-color: #A8D8B9;
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1.1em;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #8FBC8F;
+    transform: scale(1.05);
+}
+
+input[type="date"], input[type="text"] {
+    padding: 12px;
+    font-size: 1em;
+    border: 2px solid #E6E6FA;
+    border-radius: 10px;
+    width: 80%;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+input[type="text"] {
+    margin-bottom: 10px;
+}
+
+.error {
+    color: #D9534F;
+    font-weight: bold;
+    margin-top: 10px;
+    height: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.instruccion {
+    font-weight: bold;
+    color: #6a5acd;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+}
+
+/* --- ESTILOS PARA LA IMAGEN DEL RAMO --- */
+.ramo-imagen {
+    max-width: 90%;
+    max-height: 350px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+    animation: crecerRamo 1.5s ease-out forwards;
+}
+
+@keyframes crecerRamo {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+.mensaje-final h2 {
+    color: #333;
+    background-color: rgba(168, 216, 185, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px 0;
+    animation: fadeIn 2s;
+}
+
+.mensaje-final .mensaje-especial {
+    background-color: rgba(255, 218, 185, 0.8);
+    font-style: italic;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

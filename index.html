@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una Sorpresa para Ti</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <audio id="musicaFondo" loop>
+        <source src="cancion1.mp3" type="audio/mpeg">
+        <source src="cancion2.mp3" type="audio/mpeg">
+        <source src="cancion3.mp3" type="audio/mpeg">
+        <source src="cancion4.mp3" type="audio/mpeg">
+        <source src="cancion5.mp3" type="audio/mpeg">
+        <source src="cancion6.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Pantalla 1: Bienvenida -->
+    <div class="pantalla activa" id="pantalla1">
+        <div class="contenido">
+            <h1>Te llegó otra sorpresa, amor</h1>
+            <button onclick="mostrarPantalla('pantalla2')">Continuar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla 2: Fecha de aniversario -->
+    <div class="pantalla" id="pantalla2">
+        <div class="contenido">
+            <h1>¡Feliz día de la novia!</h1>
+            <p>Por favor, ingresa la fecha en que nos hicimos novios:</p>
+            
+            <label for="fechaNovios" class="visually-hidden">Fecha en que nos hicimos novios</label>
+            <input 
+                type="date" 
+                id="fechaNovios" 
+                name="fechaNovios" 
+                title="Selecciona nuestra fecha especial, amor"
+                aria-label="Fecha en que nos hicimos novios">
+
+            <button onclick="validarFecha()">Continuar</button>
+            <p id="mensajeErrorFecha" class="error"></p>
+        </div>
+    </div>
+
+    <!-- Pantalla 3: Juego de preguntas -->
+    <div class="pantalla" id="pantalla3">
+        <div class="contenido-juego">
+            <h1>Encuentra el Tesoro</h1>
+            <p class="instruccion">¡Atención, amor! Todas las respuestas deben ser escritas en MAYÚSCULAS.</p>
+
+            <div id="juego">
+                <!-- Las preguntas se generarán con JavaScript -->
+            </div>
+            <div id="cofre" class="hidden">
+                <img src="tesoro.png" alt="Cofre del tesoro" style="width: 150px;">
+                <p>¡Eres la mujer más hermosa y gracias por conocerme mucho!</p>
+                <p>Dale en continuar para la última sorpresa, amor.</p>
+                <button onclick="mostrarPantalla('pantalla4')">Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla 4: Ramo de rosas (con imagen) y mensaje final -->
+    <div class="pantalla" id="pantalla4">
+        <div class="contenido-final">
+            
+            <!-- INICIO DE LA MODIFICACIÓN -->
+            <img src="rosas.png" alt="Un hermoso ramo de rosas para ti" class="ramo-imagen">
+            <!-- FIN DE LA MODIFICACIÓN -->
+            
+            <div class="mensaje-final">
+                <h2>Feliz 1 de agosto a la novia más hermosa del mundo entero.</h2>
+                <h2>Te amo mucho, mi niña hermosa 🤍</h2>
+                <h2 class="mensaje-especial">Conmigo amor, nunca serás espectadora. Aunque la distancia sea una buena amiga de nosotros, siempre te voy a tratar de sorprender cada día, mi niña hermosa.</h2>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
