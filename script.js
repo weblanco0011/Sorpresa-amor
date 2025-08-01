@@ -1,3 +1,32 @@
+// --- CONFIGURACIÓN DE LA LISTA DE CANCIONES ---
+const playlist = [
+    'cancion1.mp3',
+    'cancion2.mp3',
+    'cancion3.mp3',
+    'cancion4.mp3',
+    'cancion5.mp3',
+    'cancion6.mp3'
+];
+
+let cancionActualIndex = 0;
+const audio = document.getElementById('musicaFondo');
+let musicaIniciada = false;
+
+// Cargar la primera canción en el reproductor para que esté lista
+audio.src = playlist[cancionActualIndex];
+
+// Función para reproducir la siguiente canción de la lista
+function reproducirSiguiente() {
+    // Avanza al siguiente índice, y si llega al final, vuelve al principio (loop)
+    cancionActualIndex = (cancionActualIndex + 1) % playlist.length;
+    audio.src = playlist[cancionActualIndex];
+    audio.play();
+}
+
+// Escuchar el evento 'ended' que se dispara cuando una canción termina
+audio.addEventListener('ended', reproducirSiguiente);
+
+
 // --- CONFIGURACIÓN DEL JUEGO ---
 const preguntas = [
     { pregunta: "¿Cuándo es mi cumpleaños, amor?", respuesta: "6 DE NOVIEMBRE" },
@@ -5,36 +34,20 @@ const preguntas = [
     { pregunta: "¿Qué jornada viví yo, amor?", respuesta: "15" },
     { pregunta: "¿En cuántos equipos de jornadas he participado con la XXIII, amor?", respuesta: "8" },
     { pregunta: "¿Qué deporte me gusta mucho, amor?", respuesta: "FUTBOL" },
-    { pregunta: "¿Quién es mi ídolo en el fútbol, amor?", respuesta: "CRISTIANO RONALDO DOS SANTOS AVEIRO" },
+    { pregunta: "¿Quién es mi ídolo en el fútbol, amor?", respuesta: "CRISTIANO RONALDO" },
     { pregunta: "¿Cuáles son mis equipos favoritos, amor?", respuesta: "ATLETICO NACIONAL Y REAL MADRID" },
-    { pregunta: "¿Cuáles son mis colores favoritos, amor? (son tres)", respuesta: "VERDE BLANCO Y NEGRO" },
+    { pregunta: "¿Cuáles son mis colores favoritos, amor? (son tres)", respuesta: "VERDE, BLANCO Y NEGRO" },
     { pregunta: "¿Cuál es mi fruta favorita, amor?", respuesta: "GUANABANA" },
     { pregunta: "¿Quién es mi persona favorita, amor?", respuesta: "MI NOVIA" }
 ];
 let preguntaActual = 0;
 
-// --- LÓGICA DE LA REPRODUCCIÓN DE MÚSICA ---
-const audio = document.getElementById('musicaFondo');
-const canciones = Array.from(audio.getElementsByTagName('source'));
-let cancionActualIndex = 0;
-let musicaIniciada = false;
-
-// Función para reproducir la siguiente canción de la lista
-const reproducirSiguiente = () => {
-    cancionActualIndex = (cancionActualIndex + 1) % canciones.length;
-    audio.src = canciones[cancionActualIndex].src;
-    audio.play();
-};
-
-// Se activa cuando una canción termina para pasar a la siguiente
-audio.addEventListener('ended', reproducirSiguiente);
-
 // --- CONTROL DE PANTALLAS ---
 function mostrarPantalla(idPantalla) {
-    // IMPORTANTE: Iniciar la música con la primera interacción del usuario
+    // Iniciar la música con la primera interacción para cumplir con las políticas del navegador
     if (!musicaIniciada) {
         audio.play().catch(error => {
-            console.log("El navegador bloqueó la reproducción automática. Esperando interacción.");
+            console.log("El navegador bloqueó la reproducción automática. Iniciando con clic.");
         });
         musicaIniciada = true;
     }
