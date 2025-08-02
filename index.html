@@ -4,11 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Una Sorpresa para Ti</title>
+    <!-- ENLACE A FONT AWESOME PARA LOS ICONOS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- ETIQUETA DE AUDIO SIMPLIFICADA -->
     <audio id="musicaFondo"></audio>
+
+    <!-- INICIO DEL NUEVO REPRODUCTOR TIPO SPOTIFY -->
+    <div id="audio-player">
+        <div id="song-info">
+            <p id="song-title">Cargando...</p>
+            <div id="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+            <div id="time-container">
+                <span id="current-time">0:00</span>
+                <span id="total-duration">0:00</span>
+            </div>
+        </div>
+        <div id="audio-controls">
+            <button onclick="prevSong()" title="Canción Anterior"><i class="fas fa-backward-step"></i></button>
+            <button onclick="playPause()" title="Reproducir/Pausar"><i id="play-pause-icon" class="fas fa-play"></i></button>
+            <button onclick="nextSong()" title="Siguiente Canción"><i class="fas fa-forward-step"></i></button>
+        </div>
+    </div>
+    <!-- FIN DEL NUEVO REPRODUCTOR -->
 
     <!-- Pantalla 1: Bienvenida -->
     <div class="pantalla activa" id="pantalla1">
@@ -18,34 +39,25 @@
         </div>
     </div>
 
+    <!-- (El resto del HTML no cambia...) -->
+
     <!-- Pantalla 2: Fecha de aniversario -->
     <div class="pantalla" id="pantalla2">
         <div class="contenido">
             <h1>¡Feliz día de la novia!</h1>
             <p>Por favor, ingresa la fecha en que nos hicimos novios:</p>
-            
             <label for="fechaNovios" class="visually-hidden">Fecha en que nos hicimos novios</label>
-            <input 
-                type="date" 
-                id="fechaNovios" 
-                name="fechaNovios" 
-                title="Selecciona nuestra fecha especial, amor"
-                aria-label="Fecha en que nos hicimos novios">
-
+            <input type="date" id="fechaNovios" name="fechaNovios" title="Selecciona nuestra fecha especial, amor" aria-label="Fecha en que nos hicimos novios">
             <button onclick="validarFecha()">Continuar</button>
             <p id="mensajeErrorFecha" class="error"></p>
         </div>
     </div>
-
     <!-- Pantalla 3: Juego de preguntas -->
     <div class="pantalla" id="pantalla3">
         <div class="contenido-juego">
             <h1>Encuentra el Tesoro</h1>
             <p class="instruccion">¡Atención, amor! Todas las respuestas deben ser escritas en MAYÚSCULAS.</p>
-
-            <div id="juego">
-                <!-- Las preguntas se generarán con JavaScript -->
-            </div>
+            <div id="juego"></div>
             <div id="cofre" class="hidden">
                 <img src="tesoro.png" alt="Cofre del tesoro" style="width: 150px;">
                 <p>¡Eres la mujer más hermosa y gracias por conocerme mucho!</p>
@@ -54,12 +66,10 @@
             </div>
         </div>
     </div>
-
-    <!-- Pantalla 4: Ramo de rosas (con imagen) y mensaje final -->
+    <!-- Pantalla 4: Ramo de rosas y mensaje final -->
     <div class="pantalla" id="pantalla4">
         <div class="contenido-final">
             <img src="rosas.png" alt="Un hermoso ramo de rosas para ti" class="ramo-imagen">
-            
             <div class="mensaje-final">
                 <h2>Feliz 1 de agosto a la novia más hermosa del mundo entero.</h2>
                 <h2>Te amo mucho, mi niña hermosa 🤍</h2>

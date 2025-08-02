@@ -1,41 +1,104 @@
-// --- CONFIGURACIÓN DE LA LISTA DE CANCIONES (CON RUTA A LA CARPETA 'audio') ---
+// --- CONFIGURACIÓN DE LA LISTA DE CANCIONES CON TÍTULOS ---
 const playlist = [
-    'cancion1.mp3',
-    'cancion2.mp3',
-    'cancion3.mp3',
-    'cancion4.mp3',
-    'cancion5.mp3',
-    'cancion6.mp3'
+    { src: 'cancion1.mp3', title: 'Ella Es Mi Todo - Kaleth Morales' },
+    { src: 'cancion2.mp3', title: 'Índigo - Camilo & Evaluna Montaner' },
+    { src: 'cancion3.mp3', title: 'Robarte un Beso - Carlos Vives & Sebastián Yatra' },
+    { src: 'cancion4.mp3', title: 'Me Rehúso - Danny Ocean' },
+    { src: 'cancion5.mp3', title: 'Si No Me Falla El Corazón - Los Diablitos' },
+    { src: 'cancion6.mp3', title: 'Una Lady Como Tú - Manuel Turizo' },
 ];
 
 let cancionActualIndex = 0;
+
+// Elementos del DOM del reproductor
 const audio = document.getElementById('musicaFondo');
-let musicaIniciada = false;
+const playPauseIcon = document.getElementById('play-pause-icon');
+const songTitleEl = document.getElementById('song-title');
+const progressBar = document.getElementById('progress-bar');
+const progressContainer = document.getElementById('progress-container');
+const currentTimeEl = document.getElementById('current-time');
+const totalDurationEl = document.getElementById('total-duration');
+let musicaDesbloqueada = false;
 
-// Cargar la primera canción en el reproductor para que esté lista
-audio.src = playlist[cancionActualIndex];
+// --- FUNCIONES PARA EL REPRODUCTOR DE AUDIO ---
 
-// Función para reproducir la siguiente canción de la lista
-function reproducirSiguiente() {
-    // Avanza al siguiente índice, y si llega al final, vuelve al principio (loop)
-    cancionActualIndex = (cancionActualIndex + 1) % playlist.length;
-    console.log("Cambiando a la siguiente canción:", playlist[cancionActualIndex]); // Mensaje para depurar
-    audio.src = playlist[cancionActualIndex];
-    audio.play();
+// Carga una canción y actualiza la interfaz
+function loadSong(songIndex) {
+    const song = playlist[songIndex];
+    songTitleEl.textContent = song.title;
+    audio.src = song.src;
 }
 
-// Escuchar el evento 'ended' que se dispara cuando una canción termina
-audio.addEventListener('ended', reproducirSiguiente);
+// Formatea el tiempo de segundos a "minutos:segundos"
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+}
 
+// Actualiza la barra de progreso y los tiempos
+function updateProgress() {
+    const { duration, currentTime } = audio;
+    const progressPercent = (currentTime / duration) * 100;
+    progressBar.style.width = `${progressPercent}%`;
+    currentTimeEl.textContent = formatTime(currentTime);
+}
 
-// --- CONFIGURACIÓN DEL JUEGO ---
+// Permite hacer clic en la barra para adelantar/atrasar
+function setProgress(e) {
+    const width = this.clientWidth;
+    const clickX = e.offsetX;
+    const duration = audio.duration;
+    audio.currentTime = (clickX / width) * duration;
+}
+
+// Controles de Play, Siguiente y Anterior
+function playPause() {
+    if (!musicaDesbloqueada) {
+        audio.play().catch(e => console.error("Error al iniciar audio:", e));
+        musicaDesbloqueada = true;
+    } else if (audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
+}
+
+function nextSong() {
+    cancionActualIndex = (cancionActualIndex + 1) % playlist.length;
+    loadSong(cancionActualIndex);
+    if (musicaDesbloqueada) audio.play();
+}
+
+function prevSong() {
+    cancionActualIndex = (cancionActualIndex - 1 + playlist.length) % playlist.length;
+    loadSong(cancionActualIndex);
+    if (musicaDesbloqueada) audio.play();
+}
+
+// Event Listeners del reproductor
+audio.addEventListener('timeupdate', updateProgress);
+audio.addEventListener('ended', nextSong);
+audio.addEventListener('loadedmetadata', () => {
+    totalDurationEl.textContent = formatTime(audio.duration);
+});
+progressContainer.addEventListener('click', setProgress);
+
+// Actualizar iconos de play/pause
+audio.onplay = () => playPauseIcon.className = 'fas fa-pause';
+audio.onpause = () => playPauseIcon.className = 'fas fa-play';
+
+// Carga la primera canción al iniciar la página
+loadSong(cancionActualIndex);
+
+// --- EL RESTO DEL CÓDIGO DEL JUEGO PERMANECE IGUAL ---
 const preguntas = [
     { pregunta: "¿Cuándo es mi cumpleaños, amor?", respuesta: "6 DE NOVIEMBRE" },
     { pregunta: "¿Cuántos años tengo, amor?", respuesta: "21" },
     { pregunta: "¿Qué jornada viví yo, amor?", respuesta: "15" },
     { pregunta: "¿En cuántos equipos de jornadas he participado con la XXIII, amor?", respuesta: "8" },
     { pregunta: "¿Qué deporte me gusta mucho, amor?", respuesta: "FUTBOL" },
-    { pregunta: "¿Quién es mi ídolo en el fútbol, amor?", respuesta: "CRISTIANO RONALDO DOS SANTOS AVEIRO" },
+    { pregunta: "¿Quién es mi ídolo en el fútbol, amor?", respuesta: "CRISTIANO RONALDO" },
     { pregunta: "¿Cuáles son mis equipos favoritos, amor?", respuesta: "ATLETICO NACIONAL Y REAL MADRID" },
     { pregunta: "¿Cuáles son mis colores favoritos, amor? (son tres)", respuesta: "VERDE, BLANCO Y NEGRO" },
     { pregunta: "¿Cuál es mi fruta favorita, amor?", respuesta: "GUANABANA" },
@@ -43,52 +106,26 @@ const preguntas = [
 ];
 let preguntaActual = 0;
 
-// --- CONTROL DE PANTALLAS ---
 function mostrarPantalla(idPantalla) {
-    // Iniciar la música con la primera interacción para cumplir con las políticas del navegador
-    if (!musicaIniciada) {
-        console.log("Primer clic detectado. Intentando reproducir música..."); // Mensaje para depurar
-        audio.play().catch(error => {
-            console.error("Error al intentar reproducir audio:", error); // Mensaje si falla
-        });
-        musicaIniciada = true;
-    }
-    
     document.querySelectorAll('.pantalla').forEach(pantalla => {
         pantalla.classList.remove('activa');
     });
     document.getElementById(idPantalla).classList.add('activa');
-
-    if (idPantalla === 'pantalla3') {
-        mostrarPregunta();
-    }
+    if (idPantalla === 'pantalla3') mostrarPregunta();
 }
-
-// --- PANTALLA 2: LÓGICA DE LA FECHA ---
 function validarFecha() {
     const fechaIngresada = document.getElementById('fechaNovios').value;
     const mensajeError = document.getElementById('mensajeErrorFecha');
-    if (fechaIngresada === '2025-07-26') { 
-        mostrarPantalla('pantalla3');
-    } else {
-        mensajeError.textContent = 'Esa no es nuestra fecha, amor. ¡Inténtalo de nuevo!';
-    }
+    if (fechaIngresada === '2025-07-26') mostrarPantalla('pantalla3');
+    else mensajeError.textContent = 'Esa no es nuestra fecha, amor. ¡Inténtalo de nuevo!';
 }
-
-// --- PANTALLA 3: LÓGICA DEL JUEGO ---
 function mostrarPregunta() {
     const contenedorJuego = document.getElementById('juego');
     contenedorJuego.innerHTML = '';
-
     if (preguntaActual < preguntas.length) {
         const divPregunta = document.createElement('div');
         divPregunta.classList.add('pregunta');
-        divPregunta.innerHTML = `
-            <p>${preguntas[preguntaActual].pregunta}</p>
-            <input type="text" id="respuestaUsuario" autofocus onkeydown="if(event.key==='Enter'){verificarRespuesta()}">
-            <button onclick="verificarRespuesta()">Responder</button>
-            <p id="mensajeErrorJuego" class="error"></p>
-        `;
+        divPregunta.innerHTML = `<p>${preguntas[preguntaActual].pregunta}</p><input type="text" id="respuestaUsuario" autofocus onkeydown="if(event.key==='Enter'){verificarRespuesta()}"><button onclick="verificarRespuesta()">Responder</button><p id="mensajeErrorJuego" class="error"></p>`;
         contenedorJuego.appendChild(divPregunta);
         document.getElementById('respuestaUsuario').focus();
     } else {
@@ -96,16 +133,12 @@ function mostrarPregunta() {
         document.getElementById('cofre').classList.remove('hidden');
     }
 }
-
 function verificarRespuesta() {
     const respuestaUsuario = document.getElementById('respuestaUsuario').value.trim();
     const mensajeErrorJuego = document.getElementById('mensajeErrorJuego');
     const respuestaCorrecta = preguntas[preguntaActual].respuesta;
-
     if (respuestaUsuario.toUpperCase() === respuestaCorrecta) {
         preguntaActual++;
         mostrarPregunta();
-    } else {
-        mensajeErrorJuego.textContent = 'Respuesta incorrecta. ¡Tú puedes, amor!';
-    }
+    } else mensajeErrorJuego.textContent = 'Respuesta incorrecta. ¡Tú puedes, amor!';
 }
