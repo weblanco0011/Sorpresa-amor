@@ -1,11 +1,11 @@
 // --- CONFIGURACIÓN DE LA LISTA DE CANCIONES (CON RUTA A LA CARPETA 'audio') ---
 const playlist = [
-    'audio/cancion1.mp3',
-    'audio/cancion2.mp3',
-    'audio/cancion3.mp3',
-    'audio/cancion4.mp3',
-    'audio/cancion5.mp3',
-    'audio/cancion6.mp3'
+    'cancion1.mp3',
+    'cancion2.mp3',
+    'cancion3.mp3',
+    'cancion4.mp3',
+    'cancion5.mp3',
+    'cancion6.mp3'
 ];
 
 let cancionActualIndex = 0;
@@ -35,7 +35,7 @@ const preguntas = [
     { pregunta: "¿Qué jornada viví yo, amor?", respuesta: "15" },
     { pregunta: "¿En cuántos equipos de jornadas he participado con la XXIII, amor?", respuesta: "8" },
     { pregunta: "¿Qué deporte me gusta mucho, amor?", respuesta: "FUTBOL" },
-    { pregunta: "¿Quién es mi ídolo en el fútbol, amor?", respuesta: "CRISTIANO RONALDO" },
+    { pregunta: "¿Quién es mi ídolo en el fútbol, amor?", respuesta: "CRISTIANO RONALDO DOS SANTOS AVEIRO" },
     { pregunta: "¿Cuáles son mis equipos favoritos, amor?", respuesta: "ATLETICO NACIONAL Y REAL MADRID" },
     { pregunta: "¿Cuáles son mis colores favoritos, amor? (son tres)", respuesta: "VERDE, BLANCO Y NEGRO" },
     { pregunta: "¿Cuál es mi fruta favorita, amor?", respuesta: "GUANABANA" },
